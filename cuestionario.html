@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario - Vida a Medida</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+<section class="py-20 max-w-4xl mx-auto px-4">
+  <h1 class="text-4xl font-bold text-gray-800 text-center mb-12">Cuestionario Inicial</h1>
+  <form id="cuestionario-form" action="https://script.google.com/macros/s/AKfycbyXIRObSbgTxHcyI7aQAUWz7OcVYfw-OGcU6SYGRGIlFwcL0KDTFsn2f0DRwbT2VXBw/exec
+" method="POST" class="space-y-6">
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+      <input type="email" id="email" name="email" class="w-full p-3 rounded-lg border" required>
+    </div>
+    <div>
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" class="w-full p-3 rounded-lg border">
+    </div>
+    <div>
+      <label for="objetivos" class="block text-sm font-medium text-gray-700">¿Cuáles son tus objetivos principales?</label>
+      <textarea id="objetivos" name="objetivos" class="w-full p-3 rounded-lg border" rows="4"></textarea>
+    </div>
+    <div>
+      <label for="obstaculos" class="block text-sm font-medium text-gray-700">¿Qué obstáculos enfrentas?</label>
+      <textarea id="obstaculos" name="obstaculos" class="w-full p-3 rounded-lg border" rows="4"></textarea>
+    </div>
+    <div>
+      <label for="tiempo" class="block text-sm font-medium text-gray-700">¿Cuánto tiempo puedes dedicar semanalmente?</label>
+      <select id="tiempo" name="tiempo" class="w-full p-3 rounded-lg border">
+        <option value="">Selecciona una opción</option>
+        <option value="Menos de 5 horas">Menos de 5 horas</option>
+        <option value="5-10 horas">5-10 horas</option>
+        <option value="Más de 10 horas">Más de 10 horas</option>
+      </select>
+    </div>
+    <div>
+      <label for="limitaciones" class="block text-sm font-medium text-gray-700">¿Cuáles son tus limitaciones económicas?</label>
+      <textarea id="limitaciones" name="limitaciones" class="w-full p-3 rounded-lg border" rows="4"></textarea>
+    </div>
+    <div>
+      <label for="contacto" class="block text-sm font-medium text-gray-700">¿Prefieres contacto por...?</label>
+      <select id="contacto" name="contacto" class="w-full p-3 rounded-lg border">
+        <option value="">Selecciona una opción</option>
+        <option value="Correo">Correo</option>
+        <option value="WhatsApp">WhatsApp</option>
+        <option value="Videollamada">Videollamada</option>
+      </select>
+    </div>
+    <div>
+      <label for="extra" class="block text-sm font-medium text-gray-700">¿Algo más que debamos saber?</label>
+      <textarea id="extra" name="extra" class="w-full p-3 rounded-lg border" rows="4"></textarea>
+    </div>
+    <button type="submit" class="w-full bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800">Enviar Cuestionario</button>
+  </form>
+  <p id="form-message" class="mt-4 hidden text-green-600 text-center">¡Gracias por completar el cuestionario! Pronto te contactaremos.</p>
+</section>
+
+<script>
+  document.getElementById('cuestionario-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        document.getElementById('form-message').classList.remove('hidden');
+        setTimeout(() => form.reset(), 1000);
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Hubo un error al enviar el formulario.');
+    });
+  });
+</script>
+</body>
+</html>
